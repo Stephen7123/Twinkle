@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For Twinkle, Gently</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* ----------------------- 1. VARIABLES & RESET ----------------------- */
+        :root {
+            /* Core Palette */
+            --cool-grey: #d6d8dc;
+            --pink-lavender: #e6d9e8;
+            --white-coffee: #f5efe9;
+            --old-gold: #b89b5e;
+            /* Text */
+            --text-main: #2b2b2b;
+            --text-soft: #6b6b6b;
+            /* Christmas Accent (Page 4 only) */
+            --xmas-gold: #d4af37;
+
+            /* Envelope Variables */
+            --envelope-color: var(--pink-lavender);
+            --flap-color: #d8c9da;
+            --heart-color: #ff3861;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: linear-gradient(180deg, var(--cool-grey), var(--white-coffee));
+            color: var(--text-main);
+            line-height: 1.9;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ----------------------- 2. LAYOUT & TYPOGRAPHY ----------------------- */
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(245, 239, 233, 0.92);
+            padding: 1rem;
+            text-align: center;
+            z-index: 10;
+            border-bottom: 1px solid rgba(184, 155, 94, 0.25);
+        }
+
+        nav a {
+            margin: 0 1rem;
+            text-decoration: none;
+            color: var(--text-soft);
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a:focus {
+            color: var(--old-gold);
+            outline: none;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 7rem 1.5rem 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page {
+            max-width: 660px;
+            width: 100%;
+            background: linear-gradient(180deg, #ffffff, var(--white-coffee));
+            padding: 3.2rem 2.7rem;
+            border-radius: 22px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.06);
+            animation: fadeIn 1.5s ease-in-out;
+            border: 1px solid rgba(184, 155, 94, 0.18);
+        }
+
+        h1, h2 {
+            font-family: "Playfair Display", serif;
+            font-weight: normal;
+            margin-bottom: 1.7rem;
+            color: #1e1e1e;
+        }
+
+        h1 { font-size: 2.4rem; }
+        h2 { font-size: 1.8rem; }
+
+        p {
+            margin-bottom: 1.45rem;
+            font-size: 1.05rem;
+        }
+
+        .soft {
+            color: var(--text-soft);
+            font-style: italic;
+        }
+
+        .closing {
+            margin-top: 2.4rem;
+            font-size: 0.95rem;
+            color: var(--text-soft);
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--old-gold), transparent);
+            margin: 2.8rem 0;
+        }
+
+        .poem-box {
+            background: rgba(230, 217, 232, 0.45);
+            padding: 1.8rem 1.6rem;
+            border-radius: 16px;
+            margin-bottom: 2.4rem;
+            border-left: 4px solid var(--old-gold);
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 2rem auto;
+            border-radius: 18px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Christmas Page Accent */
+        #page4 .page {
+            border: 1px solid rgba(212, 175, 55, 0.6);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+        }
+
+        #page4 h2 {
+            color: var(--xmas-gold);
+        }
+
+        #page4 .divider {
+            background: linear-gradient(to right, transparent, var(--xmas-gold), transparent);
+        }
+
+        /* Buttons */
+        button {
+            padding: .6rem 1.2rem;
+            margin: .3rem;
+            border: none;
+            background: var(--old-gold);
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #a38953;
+        }
+
+        button:focus {
+            outline: 3px solid var(--text-main);
+            outline-offset: 3px;
+            border-radius: 20px;
+        }
+
+        /* ----------------------- 3. ENVELOPE (PAGE 5) STYLES - FIXED ----------------------- */
+
+        .valentine {
+            font-family: "Playfair Display", serif;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .envelope-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        #envelope {
+            position: relative;
+            width: 280px;
+            height: 180px;
+            background: var(--envelope-color);
+            cursor: pointer;
+            transition: 0.6s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden; 
+        }
+
+        /* Letter Slide Out (Adjusted translation) */
+        #envelope.open .letter {
+            transform: translateY(-160px); 
+        }
+
+        /* Flap Transformation (Rotation for Open/Close) */
+        #envelope.open .front.flap {
+            transform: rotateX(180deg);
+            z-index: 5;
+        }
+        
+        .front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--flap-color);
+            transition: 0.6s;
+            transform-origin: top;
+        }
+
+        .flap {
+            clip-path: polygon(0 0, 50% 50%, 100% 0);
+            height: 50%;
+            top: 0;
+            z-index: 3;
+        }
+
+        .pocket {
+            background: var(--envelope-color); 
+            height: 100%;
+            top: 0;
+            z-index: 1;
+        }
+
+        .letter {
+            position: absolute;
+            width: 90%;
+            height: 140px;
+            background: white;
+            /* Start the letter below the visible area */
+            top: 150px; 
+            left: 5%;
+            padding: 1rem;
+            transition: 0.6s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            z-index: 2;
+        }
+
+        /* Letter content alignment */
+        .letter p {
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .reset {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        /* Hearts Styling */
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            background: var(--heart-color);
+            width: 15px;
+            height: 15px;
+            transform: rotate(-45deg);
+            z-index: 0;
+            opacity: 0;
+        }
+
+        .heart:before, .heart:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -50%;
+        }
+        .heart:after {
+            left: 50%;
+        }
+
+        /* Animation for hearts when envelope opens */
+        #envelope.open .hearts .heart {
+            opacity: 1;
+            animation: heart-fall 1.5s ease-out forwards;
+        }
+
+        .heart.a1 { top: 70%; left: 10%; animation-delay: 0.2s; }
+        .heart.a2 { top: 60%; left: 45%; animation-delay: 0.5s; }
+        .heart.a3 { top: 80%; left: 80%; animation-delay: 0.8s; }
+
+        @keyframes heart-fall {
+            0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+            100% { transform: translateY(-300px) rotate(-45deg); opacity: 0; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="#page1">Beginning</a>
+        <a href="#page2">Poems</a>
+        <a href="#page3">Always</a>
+        <a href="#page4">Christmas</a>
+        <a href="#page5">Letter</a>
+    </nav>
+
+    <main>
+        <section id="page1">
+            <div class="page">
+                <h1>Read this slowly.</h1>
+                <p class="soft">There is no urgency here. No expectations either.</p>
+
+                <p>I didn’t create this to persuade you, or to hold you in place. I made it because some feelings deserve a quiet space to exist without interruption.</p>
+                <p>You don’t owe me anything for reading this. Not reassurance. Not closeness. Not answers. Just your presence — even briefly — is enough.</p>
+                <p>I know you value your independence, your inner world, and the freedom to step back when things feel heavy. This page respects that.</p>
+            </div>
+        </section>
+
+        <section id="page2">
+            <div class="page">
+                <h2>Twinkle</h2>
+                <img src="one.jpg" alt="A meaningful placeholder image for Twinkle's poems, perhaps abstract art or a quiet landscape.">
+
+                <div class="poem-box">
+                    <p><strong>They say find a queen who builds her own throne,</strong><br>
+                    Mine constructed hers from wit and bone.<br>
+                    Her scepter’s a pen, her decree a laugh,<br>
+                    She divides my days into before and half.</p>
+
+                    <p>The royal edict? A stunning smile.<br>
+                    I’ll serve this sentence for life, and all the while<br>
+                    Whisper to the court of my foolish heart,<br>
+                    “From this glorious rule, I’ll never depart.”</p>
+                </div>
+
+                <div class="poem-box">
+                    <p><strong>The Atlas of You</strong></p>
+                    <p>You are my favorite geography:<br>
+                    The quiet valley of your collarbone,<br>
+                    The weather-map of your shifting moods,<br>
+                    The warm coastline where I am home.</p>
+                    <p>I am learning, by heart, the topography of your laugh, and I will spend my life charting every path.</p>
+                </div>
+
+                <img src="two.jpg" alt="A second meaningful placeholder image related to the poem's theme.">
+
+                <div class="poem-box">
+                    <p><strong>Puzzle Box</strong></p>
+                    <p>You are not a missing piece—That implies I was incomplete.<br>
+                    You are the gentle release of a truth I couldn’t meet alone.</p>
+                    <p>Two complex frames, clicking into something new—<br>
+                    A third, quiet picture with two names, an answer we somehow always knew.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="page3">
+            <div class="page">
+                <h2>No Demands. Just Truth.</h2>
+                <p>I am not asking you to change. I am not asking you to promise anything.</p>
+                <p>You are free with me. Free to come closer. Free to step back. Free to be exactly who you are.</p>
+                <p>If one day you choose to stay — I’ll meet you there. If another day you need quiet — I’ll respect that too.</p>
+                <p>This isn’t a letter meant to pull you in. It’s one meant to leave the door open.</p>
+                <p class="closing">If you ever return to these words, let them gently remind you: you were never too much, and never a burden.</p>
+            </div>
+        </section>
+
+        <section id="page4">
+            <div class="page">
+                <h2>Christmas, Softly</h2>
+                <div class="divider"></div>
+                <p class="soft">This page asks nothing of you. It’s just warmth, if you want it.</p>
+                <p>Christmas doesn’t have to be loud to be meaningful. It can be quiet lights, slow mornings, and the comfort of knowing someone thought of you without needing anything in return.</p>
+                <p>Wherever you are this season — whether surrounded by people or wrapped in solitude — I hope you feel safe and unhurried.</p>
+                <p class="closing">Merry Christmas, Twinkle.<br>Gently. Always.</p>
+            </div>
+        </section>
+        
+        <section id="page5">
+            <div class="page">
+                <h1 class="valentine">Twinkle</h1>
+                
+                <div class="envelope-wrapper">
+                    <div id="envelope" class="close">
+                        <div class="front flap"></div>
+                        <div class="front pocket"></div>
+                        <div class="letter">
+                            <p class="words line1">Hello Leaticia,</p>
+                            <p class="words line2">However this unfolds, I’m grateful for you today.</p>
+                            <p class="words line3">Love,</p>
+                            <p class="words line4">Stephen</p>
+                        </div>
+                        <div class="hearts">
+                            <div class="heart a1"></div>
+                            <div class="heart a2"></div>
+                            <div class="heart a3"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reset">
+                    <button id="openBtn">Open</button>
+                    <button id="closeBtn">Close</button>
+                </div>
+                </div>
+        </section>
+    </main>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const envelope = document.getElementById("envelope");
+        // Using openBtn and closeBtn to match the IDs in the HTML structure
+        const openBtn = document.getElementById("openBtn");
+        const closeBtn = document.getElementById("closeBtn");
+
+        function openEnvelope() {
+            envelope.classList.add("open");
+        }
+
+        function closeEnvelope() {
+            envelope.classList.remove("open");
+        }
+
+        // Event listeners
+        openBtn.addEventListener("click", openEnvelope);
+        closeBtn.addEventListener("click", closeEnvelope);
+        envelope.addEventListener("click", () => {
+            if (envelope.classList.contains("open")) {
+                closeEnvelope();
+            } else {
+                openEnvelope();
+            }
+        });
+    });
+    </script>
+
+</body>
+</html>
